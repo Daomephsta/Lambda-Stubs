@@ -17,6 +17,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.NodeFinder;
 import org.eclipse.jdt.core.dom.SimpleName;
+import org.eclipse.jdt.core.dom.StructuralPropertyDescriptor;
 import org.eclipse.jdt.ui.text.java.ContentAssistInvocationContext;
 import org.eclipse.jdt.ui.text.java.IJavaCompletionProposalComputer;
 import org.eclipse.jdt.ui.text.java.JavaContentAssistInvocationContext;
@@ -52,8 +53,11 @@ public class LambdaStubsJavaCompletionProposalComputer implements IJavaCompletio
 					{
 						MethodInvocation methodInvocation = (MethodInvocation) coveringNode.getParent();
 						//Map the identifier to the type of the parameter it's being passed as
+						StructuralPropertyDescriptor locationInParent = simpleName.getLocationInParent();
+						if (!locationInParent.isChildListProperty())
+							return Collections.emptyList();
 						@SuppressWarnings("unchecked")
-						int parameterIndex = ((List<ASTNode>) methodInvocation.getStructuralProperty(simpleName.getLocationInParent())).indexOf(simpleName);
+						int parameterIndex = ((List<ASTNode>) methodInvocation.getStructuralProperty(locationInParent)).indexOf(simpleName);
 						ITypeBinding lambdaType = methodInvocation.resolveMethodBinding().getParameterTypes()[parameterIndex];
 						return LambdaSpecification.computeValidSpecifications(lambdaType).stream()
 								.map(options -> new LambdaStubCompletionProposal(astRoot, coveringNode, options))
