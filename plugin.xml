@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.jdt.ui.javaCompletionProposalComputer"
+         id="lambda_stub_proposals"
+         name="Lambda Stub Proposals">
+         <javaCompletionProposalComputer
+         	class="io.github.daomephsta.lambda_stubs.LambdaStubsJavaCompletionProposalComputer"
+         	activate="true"/>
+   </extension>
+</plugin>
