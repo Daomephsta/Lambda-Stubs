@@ -59,6 +59,8 @@ public class LambdaStubsJavaCompletionProposalComputer implements IJavaCompletio
 						@SuppressWarnings("unchecked")
 						int parameterIndex = ((List<ASTNode>) methodInvocation.getStructuralProperty(locationInParent)).indexOf(simpleName);
 						ITypeBinding lambdaType = methodInvocation.resolveMethodBinding().getParameterTypes()[parameterIndex];
+						if (lambdaType.getFunctionalInterfaceMethod() == null)
+							return Collections.emptyList();
 						return LambdaSpecification.computeValidSpecifications(lambdaType).stream()
 								.map(options -> new LambdaStubCompletionProposal(astRoot, coveringNode, options))
 								.collect(Collectors.toList());
