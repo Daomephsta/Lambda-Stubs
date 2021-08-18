@@ -2,11 +2,21 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.jdt.ui.javaCompletionProposalComputer"
-         id="lambda_stub_proposals"
-         name="Lambda Stub Proposals">
-         <javaCompletionProposalComputer
-         	class="io.github.daomephsta.lambda_stubs.LambdaStubsJavaCompletionProposalComputer"
-         	activate="true"/>
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.eclipse.jdt.ui.category.source"
+            defaultHandler="io.github.daomephsta.lambda_stubs.GenerateLambdaHander"
+            id="io.github.daomephsta.lambda_stubs.generate_lambda"
+            name="%command.name">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="io.github.daomephsta.lambda_stubs.generate_lambda"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+M3+L">
+      </key>
    </extension>
 </plugin>
